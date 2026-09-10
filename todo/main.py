@@ -8,6 +8,7 @@ todos = [
 
 next_id = 1
 
+
 class Todo(BaseModel):
     id: int
     title : str
