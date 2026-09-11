@@ -1,7 +1,11 @@
 from  fastapi import FastAPI
 from pydantic import BaseModel
+from database import Base,engine
+from models import Todo
 app = FastAPI()
 
+
+Base.metadata.create_all(bind = engine)
 todos = [
 
 ]
@@ -44,3 +48,30 @@ def get_todo(todo_id:int):
         if todo['id'] == todo_id:
             return todo
     return {'message':'Todo not found'}
+
+
+@app.put('/todos/{todo_id}')
+def update_todo(todo_id:int,todo:Todo):
+
+    for exsiting_todo in todos:
+        if exsiting_todo['id'] == todo_id:
+            exsiting_todo['title'] = todo.title
+            exsiting_todo['description'] = todo.description
+            exsiting_todo['completed'] = todo.completed
+
+            return exsiting_todo
+
+    return{'message':'Todo not found'}
+
+
+@app.delete('/todos/{todo_id}')
+def delete_todo(todo_id:int):
+    for todo in todos:
+        if todo['id'] == todo_id:
+            todos.remove(todo)
+            return {'message':'Todo is deleted'}
+
+    return {'message':'Todo not found'}
+
+        
+
