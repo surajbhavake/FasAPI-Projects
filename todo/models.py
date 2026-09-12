@@ -1,11 +1,12 @@
 from sqlalchemy import Column,Integer,String,Boolean
+from sqlalchemy.orm import Mapped,mapped_column
 from database import Base
 
 
 class Todo(Base):
     __tablename__ = 'todos'
 
-    id = Column(Integer,primary_key = True , index = True)
-    title = Column(String)
-    description = Column(String)
-    completed = Column(Boolean, default = False)
+    id :Mapped[int]= mapped_column(Integer,primary_key = True , index = True)
+    title:Mapped[str] = mapped_column(String)
+    description:Mapped[str] = mapped_column(String)
+    completed:Mapped[bool] = mapped_column(Boolean, default = False)
